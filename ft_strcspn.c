@@ -1,28 +1,28 @@
 #include <stddef.h>
-#include <string.h>
-#include <stdio.h>
 size_t	ft_strcspn(const char *s, const char *reject)
 {
-    int i = 0;
-    int len = 0;
-    while(s[i])
+    size_t len = 0;
+    while(*s)
     {
-        int j = 0;
-        while(reject[j])
+        const char *temp_rej = reject;
+        while(*temp_rej)
         {
-            if (s[i] == reject[j])
+            if (*s == *temp_rej)
                 return len;
-            j++;
+            temp_rej++;
         }
-        i++;
+        s++;
         len++;
     }
     return len;
 }
+#include <string.h>
+#include <stdio.h>
 int main()
 {
-    char s1[] = "zozgetoptas";
-    char s2[] = "abcde";
-    printf("%zu\n", ft_strcspn(s1,s2));
-    printf("%zu",strcspn(s1,s2));
+    char s[] = "zozge";
+    char rej[] = "abce";
+    printf("%zu\n",ft_strcspn(s,rej));
+    printf("%zu\n",strcspn(s,rej));
+    
 }
