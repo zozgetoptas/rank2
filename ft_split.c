@@ -1,12 +1,4 @@
 #include <stdlib.h>
-
-// Bu fonksiyon, boşluk, tab (\t) ve yeni satır (\n) karakterlerini kontrol eder.
-static int is_delimiter(char c)
-{
-    return (c == ' ' || c == '\t' || c == '\n');
-}
-
-// Bu fonksiyon, bir stringdeki kelime sayısını sayar.
 static int count_words(char *str)
 {
     int i = 0;
@@ -15,7 +7,7 @@ static int count_words(char *str)
 
     while (str[i])
     {
-        if (is_delimiter(str[i]))
+        if (str[i] == ' ' || str[i] == '\t' || str[i] == '\n')
         {
             in_word = 0;
         }
@@ -43,40 +35,20 @@ char **ft_split(char *str)
         return NULL;
     word_count = count_words(str);
     splitted = malloc(sizeof(char *) * (word_count + 1));
-    if (!splitted)
-        return NULL;
-
     while (str[i])
     {
-        // Delimiterları atla
-        while (str[i] && is_delimiter(str[i]))
+        while (str[i] && (str[i] == ' ' || str[i] == '\t' || str[i] == '\n'))
             i++;
-        
-        // Bir kelime bulduğunda
-        if (str[i] && !is_delimiter(str[i]))
+        if (str[i] && !(str[i] == ' ' || str[i] == '\t' || str[i] == '\n'))
         {
             word_start = i;
             word_len = 0;
-            while (str[i] && !is_delimiter(str[i]))
+            while (str[i] && !(str[i] == ' ' || str[i] == '\t' || str[i] == '\n'))
             {
                 word_len++;
                 i++;
             }
-
-            // Kelime için bellek tahsisi yap ve kopyala
             splitted[j] = malloc(sizeof(char) * (word_len + 1));
-            if (!splitted[j])
-            {
-                // Hata durumunda önceden ayrılan belleği temizle
-                while (j > 0)
-                {
-                    j--;
-                    free(splitted[j]);
-                }
-                free(splitted);
-                return NULL;
-            }
-
             k = 0;
             while (k < word_len)
             {
